@@ -1,0 +1,89 @@
+### 1. Metadados do Serviço
+GET http://127.0.0.1:8000/diagnostico/modelo
+User-Agent: Tester-Audit-Agent
+Accept: application/json
+
+### 2. Predição - Perfil A (alto risco: contrato mensal, fibra, cliente novo)
+POST http://127.0.0.1:8000/predict
+User-Agent: Tester-Audit-Agent
+Content-Type: application/json
+
+{
+  "tenure": 2,
+  "MonthlyCharges": 95.7,
+  "TotalCharges": 191.4,
+  "Contract": "Month-to-month",
+  "InternetService": "Fiber optic",
+  "PaymentMethod": "Electronic check",
+  "PaperlessBilling": "Yes",
+  "TechSupport": "No",
+  "OnlineSecurity": "No"
+}
+
+### 3. Predição - Perfil B (baixo risco: contrato de 2 anos, cliente antigo)
+POST http://127.0.0.1:8000/predict
+User-Agent: Tester-Audit-Agent
+Content-Type: application/json
+
+{
+  "tenure": 66,
+  "MonthlyCharges": 60.2,
+  "TotalCharges": 3973.2,
+  "Contract": "Two year",
+  "InternetService": "DSL",
+  "PaymentMethod": "Credit card (automatic)",
+  "PaperlessBilling": "No",
+  "TechSupport": "Yes",
+  "OnlineSecurity": "Yes"
+}
+
+### 4. Entrada Inválida - texto em campo numérico (espera HTTP 422)
+POST http://127.0.0.1:8000/predict
+User-Agent: Tester-Audit-Agent
+Content-Type: application/json
+
+{
+  "tenure": "invalido",
+  "MonthlyCharges": 70.0,
+  "TotalCharges": 500.0,
+  "Contract": "Month-to-month",
+  "InternetService": "DSL",
+  "PaymentMethod": "Mailed check",
+  "PaperlessBilling": "No",
+  "TechSupport": "No",
+  "OnlineSecurity": "No"
+}
+
+### 5. Entrada Inválida - valor fora dos limites (MonthlyCharges negativo) (espera HTTP 422)
+POST http://127.0.0.1:8000/predict
+User-Agent: Tester-Audit-Agent
+Content-Type: application/json
+
+{
+  "tenure": 10,
+  "MonthlyCharges": -50.0,
+  "TotalCharges": 500.0,
+  "Contract": "One year",
+  "InternetService": "DSL",
+  "PaymentMethod": "Mailed check",
+  "PaperlessBilling": "No",
+  "TechSupport": "No",
+  "OnlineSecurity": "No"
+}
+
+### 6. Entrada Inválida - categoria inexistente (espera HTTP 422)
+POST http://127.0.0.1:8000/predict
+User-Agent: Tester-Audit-Agent
+Content-Type: application/json
+
+{
+  "tenure": 10,
+  "MonthlyCharges": 50.0,
+  "TotalCharges": 500.0,
+  "Contract": "Five years",
+  "InternetService": "DSL",
+  "PaymentMethod": "Mailed check",
+  "PaperlessBilling": "No",
+  "TechSupport": "No",
+  "OnlineSecurity": "No"
+}
