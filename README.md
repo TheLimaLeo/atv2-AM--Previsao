@@ -74,4 +74,4 @@ retornam **HTTP 422** automaticamente via Pydantic.
 
 ## Vídeo de demonstração
 
-Link: _(cole aqui o link do vídeo não listado/público)_
+Link: https://youtu.be/UIwywZ2KCFE
